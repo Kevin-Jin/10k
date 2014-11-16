@@ -87,6 +87,9 @@
 	text-align:left;
 	line-height:50px;
 }
+#chart {
+	z-index:1010;
+}
 .softwareIcon{
 	float:left;
 	clear:left;
@@ -102,7 +105,16 @@
 	line-height:80px;
 }
 .scoreBar{
-	height:80px;
+	height:160px;
+	z-index: 100;
+}
+
+.nani {
+	line-height: 30px;
+	height:30px;
+	font-size: 30px;
+	font-family: Roboto-Thin,sans-serif;
+	padding-left: 300px;
 }
 @font-face { 
 font-family: Roboto-Thin;
@@ -113,4 +125,6 @@ font-family: Roboto-Bold;;
 src: url('Roboto_v1.2/Roboto/Roboto-Bold.ttf');
 }
 
-
+#links,#menu,#search {
+	cursor: pointer;
+}

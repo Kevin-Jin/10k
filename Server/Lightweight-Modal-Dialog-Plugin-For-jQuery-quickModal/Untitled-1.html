@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<link href="quickModal.css" rel="stylesheet">
+<script src="jquery-1.11.1.min.js"></script>
+<script src="jquery.quickModal.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.modalTrigger').quickModal();
+	});
+</script>
+</head>
+
+<body>
+<div id="modal-1">
+  <!--div class="modal-header">
+    <div class="content-header">
+      <h3 class="modal-title">Modal Title</h3>
+    </div>
+  </div-->
+  <div class="modal-body">
+    <div class="content-body">
+      <p>Modal Body</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="content-footer">
+      <div style="float: left; width: auto;">
+        <button type="submit" class="button button-primary"> Primary Button</button>
+      </div>
+      <div style="float: right; width:auto;">
+        <button type="reset" class="button modal-close"> Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<a class="modalTrigger" href="#modal-1">Click me</a>
+
+</body>
+</html>

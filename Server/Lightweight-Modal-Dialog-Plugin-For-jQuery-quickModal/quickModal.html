@@ -1,0 +1,84 @@
+<!DOCTYPE html> 
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+<!--[if !IE]> <!-->    <html class="no-js"> <!--<![endif]-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<title>jQuery quickModal Plugin Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="demo.css" rel="stylesheet" />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="quickModal.css" rel="stylesheet" />
+</head>
+
+<body style="padding:0 50px;">
+
+<h1 style="margin:20px auto;">jQuery quickModal Plugin Demo</h1>
+<div class="jquery-script-ads" style="margin:20px auto;"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+			<a class="modalTrigger button" href="#modal-1">Toggle a modal dialog</a>
+			
+
+
+	
+<!-- Modal dialog: uses quickModal.css file -->
+	<div id="modal-1">
+		<div class="modal-header">
+		<div class="content-header">
+			<h3 class="modal-title">Modal Title</h3>
+			<a class="modal-close" href="#"><i class="fa fa-times"></i></a>
+		</div>
+	</div>
+		<div class="modal-body">
+		<div class="content-body">
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum libero purus, convallis nec vestibulum eget, luctus vitae purus. Vestibulum non mauris et sem vulputate pellentesque ac a turpis. Ut vel lacus vitae justo vestibulum lobortis. Nunc ipsum ipsum, laoreet id dictum nec, fermentum vel purus. Maecenas nisl felis, faucibus non rutrum eu, sollicitudin sed ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent dignissim lacinia tempus. Nulla facilisi.</p>
+		</div>
+	</div>
+		<div class="modal-footer">
+		<div class="content-footer">
+			<div style="float: left; width: auto;">
+				<button type="submit" class="button button-primary">
+				<i class="fa fa-bicycle"></i>Primary Button</button>
+			</div>
+			<div style="float: right; width:auto;">
+				<button type="reset" class="button modal-close"><i class="fa fa-times"></i>Cancel</button>
+			</div>
+		</div>
+	</div>
+	</div>
+ 
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.quickModal.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function (){
+			$('.modalTrigger').quickModal({scrollBehind : true,headerBgColor: "#27ae60",borderCss: "1px solid #27ae60",modalBgColor: "#2ecc71",footerBgColor: "#27ae60"});		
+		});
+	</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>
