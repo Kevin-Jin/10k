@@ -113,4 +113,6 @@ font-family: Roboto-Bold;;
 src: url('Roboto_v1.2/Roboto/Roboto-Bold.ttf');
 }
 
-
+.link {
+	cursor: pointer;
+}

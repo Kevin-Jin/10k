@@ -75,7 +75,7 @@ echo <<<EOD
 <title>10k</title>
 <link href="10k.css" type="text/css" rel="stylesheet">
 <link href="Roboto_v1.2/Roboto/Roboto-Thin.ttf" type="text/css" rel="stylesheet">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="jquery-ui.css">
   <style>
   .ui-progressbar {
     position: relative;
@@ -92,9 +92,21 @@ echo <<<EOD
 	font-size: 100%;
   }
   </style>
+  <script src="jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="file/jquery-ui.js" type="text/javascript"></script>
+<script type="text/javascript" src="jquery.jqplot.1.0.8r1250/dist/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="jquery.jqplot.1.0.8r1250/dist/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="jquery.jqplot.1.0.8r1250/dist/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+        <link rel="stylesheet" href="css/jquery-ui.min.css">
+        <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+        <link rel="stylesheet" href="css/jdialog.css?v=2.0">
+        
+        <script type="text/javascript" src="jqModal.js"></script>
+<link type="text/css" rel="stylesheet" media="all" href="jqModal.css" />
+
+
 <script src="10k.js" type="text/javascript"></script>
-<script src="jquery-1.11.1.min.js" type="text/javascript"></script>
-  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
 <script type="text/javascript">
 	var selfProfile = ${selfProfile};
 

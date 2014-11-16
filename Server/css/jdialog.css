@@ -1,0 +1,50 @@
+/*
+ * jQuery Dialog Dinâmico
+ * Versão: 2.0
+ */
+
+.djanela-pai .ui-dialog-buttonpane {
+background: none;
+border: none;
+}
+
+#djanela p {
+padding: .5em .9em;
+font-weight: 700;
+color:#000;
+}
+
+#djanela p img {
+height:1.1em;
+vertical-align:middle;
+}
+
+.djanela-pai {
+font-size: .8em;
+background-repeat: no-repeat;
+-webkit-background-size: contain;
+-moz-background-size: contain;
+-o-background-size: contain;
+background-size:contain;
+background-position: left bottom;
+}
+
+.alerta {
+background-image:url(images/alerta.png);
+}
+
+.erro {
+background-image:url(images/erro.png);
+}
+
+.info {
+background-image:url(images/info.png);
+}
+
+.ok {
+background-image:url(images/ok.png);
+}
+   
+.cancelar {
+background-image:url(images/cancela.png);
+}
