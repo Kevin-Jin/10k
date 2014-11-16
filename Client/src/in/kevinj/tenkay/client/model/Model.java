@@ -122,8 +122,32 @@ public class Model {
 		if (updateLock) return;
 
 		JSONObject json = new JSONObject();
-		//json.put("clicks", runningClicks);
-		//json.put("keystrokes", runningKeystrokes);
+		for (Map.Entry<String, Integer> clicks : clickCount.entrySet()) {
+			JSONObject t = json.optJSONObject(clicks.getKey());
+			if (t == null) {
+				t = new JSONObject();
+				json.put(clicks.getKey(), t);
+			}
+			t.put("clicks", clicks.getValue().intValue());
+		}
+		for (Map.Entry<String, Integer> keys : keyCount.entrySet()) {
+			JSONObject t = json.optJSONObject(keys.getKey());
+			if (t == null) {
+				t = new JSONObject();
+				json.put(keys.getKey(), t);
+			}
+			t.put("keys", keys.getValue().intValue());
+		}
+		for (Map.Entry<String, Long> times : timeCount.entrySet()) {
+			JSONObject t = json.optJSONObject(times.getKey());
+			if (t == null) {
+				t = new JSONObject();
+				json.put(times.getKey(), t);
+			}
+			t.put("times", times.getValue().longValue());
+		}
+		json.put("user", username);
+System.out.println(json);
 		WebRequester.ThroughHttpURLConnection.instance.loadPage("http://" + domain + path + "/api/update.php", "POST", json.toString(), new WebRequester.HttpResponse() {
 			@Override
 			public void failed(final Throwable error) {
@@ -137,13 +161,18 @@ public class Model {
 			}
 
 			@Override
-			public void success(String type, String content) {
+			public void success(String type, final String content) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 						lastUpdateTime = System.currentTimeMillis();
 						lastUpdateClicks = runningClicks;
 						lastUpdateKeystrokes = runningKeystrokes;
+
+						keyCount.clear();
+						timeCount.clear();
+						clickCount.clear();
+
 						updateLock = false;
 					}
 				});
@@ -375,12 +404,17 @@ public class Model {
 		this.process = process;
 		long now = System.currentTimeMillis();
 		Long runningTime = timeCount.get(process);
-		timeCount.put(process, Long.valueOf((runningTime != null ? runningTime.longValue() : 0) + now - lastSwitchTime));
+		if (process != null)
+			timeCount.put(process, Long.valueOf((runningTime != null ? runningTime.longValue() : 0) + now - lastSwitchTime));
 		this.lastSwitchTime = now;
 		if (trayIcon != null)
 			if (process != null)
 				trayIcon.setToolTip("Using " + process);
 			else
 				trayIcon.setToolTip(null);
+	}
+private String username;
+	public void setUser(String username) {
+		this.username = username;
 	}
 }

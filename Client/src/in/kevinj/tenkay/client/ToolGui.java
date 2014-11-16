@@ -6,6 +6,7 @@ import in.kevinj.tenkay.client.model.Model;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -52,8 +53,9 @@ public class ToolGui extends JApplet {
 
 			private JPanel constructMiddlePanel() {
 				JPanel middle = new JPanel();
-				JLabel keyCounter = new JLabel();
-				JLabel clickCounter = new JLabel();
+				middle.setBackground(new Color(0xff, 0xbb, 0x00));
+				JLabel keyCounter = new JLabel("<html>Keystrokes<br></html>");
+				JLabel clickCounter = new JLabel("<html>Clicks<br></html>");
 
 				middle.add(keyCounter);
 				middle.add(clickCounter);

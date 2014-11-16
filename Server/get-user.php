@@ -1,12 +1,69 @@
 <?php
+require_once 'database.php';
 
-$firstName = 'Andrea';
-$lastName = 'Carlon';
-$title = 'Designer';
-$badges = [ 'PNG/BADGE PS.png' ];
-$links = [ 'PNG/LINKED IN.png', 'PNG/itunes-icon.png', 'PNG/Google_Chrome_icon_(2011).png' ];
-if (true) {
-	$links[] = 'PNG/add social_ADD SOCIAL.png';
+if (isset($_GET['user'])) {
+	$user = $_GET['user'];
+} else if (isset($_COOKIE['user'])) {
+	$user = $_COOKIE['user'];
+} else {
+	header("Location: .");
+	die();
+}
+
+$con = makeDatabaseConnection();
+$ps = $con->prepare("SELECT `id`,`username`,`firstname`,`lastname`,`title`,`avatar` FROM `user` WHERE `username` = ? OR `id` = ?");
+$ps->bind_param('ss', $user, $user);
+if (!$ps->execute()) {
+	header("Location: http://" . $_SERVER['HTTP_HOST']);
+	die();
+}
+$rs = $ps->get_result();
+if (!($array = $rs->fetch_array())) {
+	header("Location: http://" . $_SERVER['HTTP_HOST']);
+	die();
+}
+$userId = $array[0];
+$userName = $array[1];
+$firstName = $array[2];
+$lastName = $array[3];
+$title = $array[4];
+$avatar = $array[5];
+
+$selfProfile = false;
+if (isset($_COOKIE['user']) && $userName == $_COOKIE['user']) {
+	$selfProfile = true;
+}
+
+if (!$title)
+	$title = '';
+if ($avatar)
+	$avatar = '<img src="' . $avatar . '" alt=""/>';
+else
+	$avatar = '';
+if ($selfProfile)
+	$avatar = '<a href="changepic.php" style="width: 100%; height: 100%; display: block">' . $avatar . '</a>';
+
+$ps = $con->prepare("SELECT `s`.`badge` FROM `info` `i` LEFT JOIN `software` `s` ON `s`.`shortname` = `i`.`software` WHERE `i`.`userid` = ? AND `i`.`time` >= 10000 * 60 * 60 * 1000 AND `s`.`badge` IS NOT NULL");
+$ps->bind_param('i', $userId);
+$badges = [ ];
+if ($ps->execute()) {
+	$rs = $ps->get_result();
+	while ($array = $rs->fetch_array()) {
+		$badges[] = $array[0];
+	}
+}
+
+$ps = $con->prepare("SELECT `l`.`network`, `l`.`url`,`s`.`icon` FROM `links` `l` LEFT JOIN `socialnetworks` `s` ON `s`.`shortname` = `l`.`network` WHERE `l`.`userid` = ? AND `s`.`icon` IS NOT NULL");
+$ps->bind_param('i', $userId);
+$links = [ ];
+if ($ps->execute()) {
+	$rs = $ps->get_result();
+	while ($array = $rs->fetch_array()) {
+		$links[$array[0]] = ['url' => $array[1], 'img' => $array[2]];
+	}
+}
+if ($selfProfile) {
+	$links[] = ['url' => 'newlink.php', 'img' => 'PNG/add social_ADD SOCIAL.png'];
 }
 
 echo <<<EOD
@@ -31,22 +88,51 @@ echo <<<EOD
 	width: 100%;
 	text-align:center;
   }
+  #popup select, #popup input {
+	font-size: 100%;
+  }
   </style>
 <script src="10k.js" type="text/javascript"></script>
 <script src="jquery-1.11.1.min.js" type="text/javascript"></script>
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-	
-	$("#links img").click(function(){
-		alert("Heading to annther page");
-		});
-		
-	$(".softwareIcon").click(function(){
-		alert("Detail information");
-		});
+	var selfProfile = ${selfProfile};
 
 	$(document).ready(function() {
+		$('#fade').on('click', function(e) {
+			$('#fade').css('display', 'none');
+		});
+
+		$('#popup').on('click', function(e) {
+			e.stopPropagation();
+		});
+
+		$(document).on('keydown', function(e) {
+			if (e.which == 27)
+				$('#fade').css('display', 'none');
+		});
+
+		$("#links a").click(function(e){
+			if ($(this).attr('href') == 'newlink.php') {
+				$.get($(this).attr('href'), function(data) {
+					$('#fade').css('display', 'block');
+					$('#popup').html(data);
+				});
+				e.preventDefault();
+			}
+		});
+			
+		$(".softwareIcon").click(function(){
+			alert("Detail information");
+		});
+		$('#picture a').click(function(e){
+			$.get($(this).attr('href'), function(data) {
+				$('#fade').css('display', 'block');
+				$('#popup').html(data);
+			});
+			e.preventDefault();
+		});
+
 		var progressbar = $( "#progressbar" ),
 		  progressLabel = $( ".progress-label" );
 	 
@@ -65,11 +151,11 @@ $(document).ready(function(){
 			$('#statistics').html(data);
 		});
 	});
-});
 </script>
 </head>
 
 <body>
+<div id="fade" style="font-family: Roboto-Thin, sans-serif; display: none; left: 0; top: 0; width: 100%; height: 100%; position: fixed; background: rgba(0, 0, 0, 0.5)"><div id="popup" style="font-size: 200%; position: fixed; margin: auto; width: 50%; left:0; right: 0; top: 0; bottom: 0; height: 50%; background: white; padding: 15px"></div></div>
 <div style="background-color:#333333">
 <div id="topbar">
   <div id="menu" ><img src="PNG/MENU.png" max-width="64" max-height="60" alt=""/></div>
@@ -79,22 +165,22 @@ $(document).ready(function(){
 </div>
 <div id="extra">
 <div id="info">
-    <div id="picture"></div>
+    <div id="picture">${avatar}</div>
     <div id="person">
       <div id="name">
-        <span style="font-size: 40pt">${firstName}<br>${lastName}</span><br><span style="font-size: 24pt">${title}</span>
+        <span style="font-size: 50pt">${firstName}<br>${lastName}</span><br><span style="font-size: 24pt">${title}</span>
       </div>
 	  <div id="batch">
 EOD;
 foreach ($badges as $badge) {
-	echo '<img src="' . $badge . '" width="95" height="127" alt=""/>';
+	echo '<img src="' . $badge . '" width="64" height="86" alt=""/>';
 }
 echo <<<EOD
       </div>  
     </div>
 EOD;
 foreach ($links as $link) {
-	echo '<div id="links"><img src="' . $link . '" width="110" height="110" alt=""/></div>';
+	echo '<div id="links"><a href="' . $link['url'] . '"><img src="' . $link['img'] . '" width="96" height="96" alt=""/></a></div>';
 }
 echo <<<EOD
 </div>

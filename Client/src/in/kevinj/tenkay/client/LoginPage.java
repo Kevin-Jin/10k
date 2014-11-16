@@ -4,15 +4,18 @@ import in.kevinj.tenkay.client.model.Dispatchers;
 import in.kevinj.tenkay.client.model.Model;
 import in.kevinj.tenkay.client.model.WebRequester;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URI;
 import java.util.Arrays;
@@ -21,6 +24,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -89,13 +94,21 @@ public final class LoginPage {
 
 	public Component constructLoginPage(RootPaneContainer frame, final Window w, final Model m, final Runnable displayMainPage) {
 		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setBackground(new Color(0xff, 0xbb, 0x00));
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.gridwidth = 3;
 		c.insets.bottom = 10;
 		c.gridx = 0;
 		c.gridy = 0;
-		final JLabel prompt = new JLabel("Log in");
+		final JLabel prompt;// = new JLabel("Log in");
+		try {
+			prompt = new JLabel(new ImageIcon(ImageIO.read(ToolGui.class.getResourceAsStream("/resources/10KLifetopicon.png"))));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
 		panel.add(prompt, c);
 
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -127,7 +140,24 @@ public final class LoginPage {
 		c.gridy = 2;
 		panel.add(password, c);
 
-		final JButton go = new JButton("Login");
+		final JButton go;
+		try {
+			//ToolGui.class.getResourceAsStream("/resources/refresh.png")
+			//fails because Java .policy believes applet is accessing the
+			//root directory of the file system.
+			//getResourceAsStream() does not suffer from this problem but now
+			//we have to resort to the synchronous ImageIO.read() call rather
+			//than the asynchronous Tookit.getImage() call.
+			go = new JButton(new ImageIcon(ImageIO.read(ToolGui.class.getResourceAsStream("/resources/v3_LOG_IN.png")).getScaledInstance(500, 53, Image.SCALE_SMOOTH)));
+			go.setOpaque(false);
+			go.setContentAreaFilled(false);
+			go.setBorderPainted(false);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Unable to load refresh icon", e);
+		}
+
+		//final JButton go = new JButton("Login");
 		go.addActionListener(new ActionListener() {
 			private void loggedIn() {
 				m.saveUsername();
@@ -157,8 +187,10 @@ public final class LoginPage {
 		});
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.LINE_END;
-		c.gridwidth = 1;
-		c.gridx = 2;
+		c.gridwidth = 3;
+		c.gridx = 0;
+//c.gridwidth = 1;
+//c.gridx = 2;
 		c.gridy = 3;
 		panel.add(go, c);
 		frame.getRootPane().setDefaultButton(go);
@@ -178,8 +210,9 @@ public final class LoginPage {
 					String sessionToken = login(username, password);
 					if (sessionToken != null) {
 						CookieHandler.getDefault().put(new URI(schemeAndAuthority), Collections.singletonMap("Set-Cookie", Arrays.asList(
-							Model.makeCookie("user", sessionToken, username, Model.domain, secureCookie)
+							Model.makeCookie("user", sessionToken, "/", Model.domain, secureCookie)
 						)));
+						m.setUser(username);
 					}
 				} catch (Throwable e) {
 					m.onError(e, "Login failed");

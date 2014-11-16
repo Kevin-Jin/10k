@@ -319,7 +319,7 @@ System.out.println(f.length() + " " + IoAndEncodingUtil.toBase64Url(md5));
 		return new Runnable() {
 			@Override
 			public void run() {
-				t.interrupt();
+				//t.interrupt();
 			}
 		};
 	}
