@@ -1,0 +1,68 @@
+body {
+	background-color: #FFbb00
+}
+
+.main {
+	width: 950px;
+	height: 900px;
+	margin: 0 auto ;
+	padding-top: 550px; 
+	background: url("../img/v3-06.png") no-repeat;
+}
+
+.text-field {
+	font-size: 50px;
+	color: red;
+	height: 50px;
+	line-height: 50px;
+}
+
+.search {
+	background: url("../img/v3_Search box.png") no-repeat;
+	z-index: 1;
+	height: 85px;
+	margin: 0 auto;
+}
+
+.search-input {
+	height: 80px;
+	line-height: 80px;
+	font-size: 45px;
+	width: 550px;
+	font-family: Roboto-Thin,sans-serif;
+	margin-left: 50px; 
+}
+
+.blank-input {
+	background: url("../img/v3_blank.png") no-repeat;
+	z-index: 1;
+	height: 85px;
+	margin: 50px auto;
+}
+.click-part {
+	margin-right: 100px;
+	float: right;
+	height: 90px;
+	cursor: pointer;
+	width: 120px;
+}
+
+.indent {
+	margin-left:80px; 
+}
+
+.register {
+	background: url("../img/v3_SIGN_UP.png") no-repeat;
+	z-index: 10;
+	cursor: pointer;
+	height: 85px;
+	margin-top: 140px; 
+}
+
+.login {
+	background: url("../img/v3_LOG_IN.png") no-repeat;
+	cursor: pointer;
+	z-index: 10;
+	height: 85px;
+	margin-top: 120px; 
+}

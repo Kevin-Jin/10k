@@ -1,0 +1,10 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: Roboto-Thin,sans-serif;
+}
+@font-face{
+	font-family: Roboto-Thin;
+	src:url('../Roboto_v1.2/Roboto/Roboto-Thin.ttf');
+}
